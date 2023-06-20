@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .container{
+    @apply mx-auto px-[2.5%];
+  }
+  .container-full{
+    @apply mx-auto px-[2.5%] w-full;
+  }
+  .primary-btn {
+    @apply btn text-base-100 tracking-[2px] rounded-full border-2 border-transparent bg-primary hover:bg-transparent hover:border-primary hover:text-primary
+  }
+  .secondary-btn {
+    @apply btn text-base-100 tracking-[2px]  rounded-full border-2 border-transparent bg-secondary hover:bg-transparent hover:border-secondary hover:text-secondary
+  }
+  .primary-btn-sm {
+    @apply btn btn-xs text-base-100 rounded-full border-2 border-transparent bg-primary hover:bg-transparent hover:border-primary hover:text-primary
+  }
+  .secondary-btn-sm {
+    @apply btn btn-xs text-base-100 rounded-full border-2 border-transparent bg-secondary hover:bg-transparent hover:border-secondary hover:text-secondary
+  }
+  .primary-btn-outline {
+    @apply btn text-base-100 tracking-[2px] rounded-full border-2 border-primary bg-transparent hover:bg-primary hover:border-primary hover:text-white
+  }
+}
