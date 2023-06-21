@@ -12,13 +12,10 @@ const Search = () => {
     const searchInputValue = (e) => setUsername(e.target.value)
     const searchHandle = async () => {
         const q = query(collection(db, "users"), where("displayName", "==", username));
-        console.log(q)
         try {
             const querySnapshot = await getDocs(q);
-            console.log(username)
             querySnapshot.forEach((doc) => {
-                console.log(doc.id, " => ", doc.data());
-                setFinedUser(doc.data())
+                setFinedUser(doc.data());
             });
         } catch (error) {
             console.log(error)

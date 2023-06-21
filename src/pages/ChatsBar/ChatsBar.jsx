@@ -1,3 +1,4 @@
+import ChatsUsers from "./ChatsUsers";
 import Navbar from "./Navbar";
 import Search from "./Search";
 
@@ -6,6 +7,7 @@ const ChatsBar = () => {
         <section>
             <Navbar />
             <Search />
+            <ChatsUsers />
         </section>
     );
 };
