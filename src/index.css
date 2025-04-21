@@ -1,27 +1,67 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
 
-@layer components {
-  .container{
-    @apply mx-auto px-[2.5%];
-  }
-  .container-full{
-    @apply mx-auto px-[2.5%] w-full;
-  }
-  .primary-btn {
-    @apply btn text-base-100 tracking-[2px] rounded-full border-2 border-transparent bg-primary hover:bg-transparent hover:border-primary hover:text-primary
-  }
-  .secondary-btn {
-    @apply btn text-base-100 tracking-[2px]  rounded-full border-2 border-transparent bg-secondary hover:bg-transparent hover:border-secondary hover:text-secondary
-  }
-  .primary-btn-sm {
-    @apply btn btn-xs text-base-100 rounded-full border-2 border-transparent bg-primary hover:bg-transparent hover:border-primary hover:text-primary
-  }
-  .secondary-btn-sm {
-    @apply btn btn-xs text-base-100 rounded-full border-2 border-transparent bg-secondary hover:bg-transparent hover:border-secondary hover:text-secondary
-  }
-  .primary-btn-outline {
-    @apply btn text-base-100 tracking-[2px] rounded-full border-2 border-primary bg-transparent hover:bg-primary hover:border-primary hover:text-white
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* animation */
+  --animate-checkbox: checkbox 0.3s ease-in-out;
+  @keyframes checkbox {
+    0% {
+      background-position-y: 0.25em;
+    }
+    50% {
+      background-position-y: -0.1em;
+    }
+    100% {
+      background-position-y: 0;
+    }
   }
 }
+@import "./assets/styles/utilities/utilities.css";
+
+/* Base Styles */
+@import "./assets/styles/base/variables.css";
+@import "./assets/styles/base/typography.css";
+
+/* Component Styles */
+@import "./assets/styles/components/checkbox.css";
+
+/* Utility Styles */
+@import "./assets/styles/utilities/loading.css";
