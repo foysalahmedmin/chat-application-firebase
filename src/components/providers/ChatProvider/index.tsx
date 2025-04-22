@@ -1,3 +1,6 @@
+import { ChatState } from "@/interfaces/ chat.interface";
+import { User } from "@/interfaces/user.interface";
+import { generateChatId } from "@/utils/generateChatId";
 import React, {
   createContext,
   Dispatch,
@@ -10,22 +13,10 @@ import { useAuth } from "../AuthProvider";
 // ----------------------
 // Type Definitions
 // ----------------------
-interface ChatUser {
-  uid: string;
-  displayName?: string;
-  photoURL?: string;
-  [key: string]: unknown;
-}
-
-interface ChatState {
-  chatId: string;
-  user: ChatUser | null;
-}
-
-type ChatAction = { type: "CHANGE_USER"; payload: ChatUser };
+type ChatAction = { type: "CHANGE_USER"; payload: User };
 
 interface ChatContextType {
-  data: ChatState;
+  state: ChatState;
   dispatch: Dispatch<ChatAction>;
 }
 
@@ -53,7 +44,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   const { user } = useAuth();
 
   const INITIAL_STATE: ChatState = {
-    chatId: "null",
+    cid: null,
     user: null,
   };
 
@@ -63,10 +54,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
       case "CHANGE_USER":
         return {
           user: action.payload,
-          chatId:
-            user.uid > action.payload.uid
-              ? user.uid + action.payload.uid
-              : action.payload.uid + user.uid,
+          cid: generateChatId(user?.uid, action?.payload?.uid),
         };
       default:
         return state;
@@ -76,7 +64,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
 
   return (
-    <ChatContext.Provider value={{ data: state, dispatch }}>
+    <ChatContext.Provider value={{ state, dispatch }}>
       {children}
     </ChatContext.Provider>
   );

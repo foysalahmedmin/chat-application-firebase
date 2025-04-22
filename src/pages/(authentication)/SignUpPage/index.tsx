@@ -38,23 +38,25 @@ const SignUpPage = () => {
 
       const date = new Date().getTime();
       const photo = data.photoFile[0];
-      const storageRef = ref(storage, `${data.name + date}`);
 
-      await uploadBytesResumable(storageRef, photo);
-      const downloadURL = await getDownloadURL(storageRef);
+      let photoURL = null;
+      if (photo) {
+        const storageRef = ref(storage, `${data.name + date}`);
+        await uploadBytesResumable(storageRef, photo);
+        photoURL = await getDownloadURL(storageRef);
+      }
 
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
-        displayName: data.name,
-        email: data.email,
-        photoURL: downloadURL,
+      await setDoc(doc(db, "users", user?.uid), {
+        uid: user?.uid,
+        displayName: user?.displayName,
+        search: user?.displayName?.toLowerCase(),
+        email: user?.email,
+        photoURL: photoURL,
       });
-
-      await setDoc(doc(db, "userChats", user.uid), {});
 
       await updateProfile(user, {
         displayName: data.name,
-        photoURL: downloadURL,
+        photoURL: photoURL,
       });
 
       alert("Sign-up successful!");
@@ -95,9 +97,8 @@ const SignUpPage = () => {
               <div className="form-control mb-6">
                 <input
                   type="file"
-                  {...register("photoFile", { required: true })}
+                  {...register("photoFile")}
                   className="input input-bordered"
-                  required
                 />
               </div>
               <div className="form-control mb-6">
