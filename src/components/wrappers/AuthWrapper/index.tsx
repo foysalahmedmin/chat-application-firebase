@@ -7,7 +7,7 @@ interface PrivateRouteProps {
   children: ReactNode;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+const AuthWrapper: React.FC<PrivateRouteProps> = ({ children }) => {
   const { user, isLoading } = useAuth();
   const location = useLocation();
 
@@ -16,10 +16,16 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   }
 
   if (!user) {
-    return <Navigate to="/signIn" state={{ from: location }} replace />;
+    return (
+      <Navigate
+        to="/authentication/sign-in"
+        state={{ from: location }}
+        replace
+      />
+    );
   }
 
   return <>{children}</>;
 };
 
-export default PrivateRoute;
+export default AuthWrapper;

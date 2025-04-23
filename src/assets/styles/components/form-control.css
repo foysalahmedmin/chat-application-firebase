@@ -1,0 +1,3 @@
+.form-control {
+  @apply inline-flex items-center px-4 h-10 gap-2 appearance-none border-b outline-none focus-within:border-accent;
+}

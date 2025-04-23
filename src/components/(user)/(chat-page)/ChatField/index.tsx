@@ -158,7 +158,7 @@ const ChatField = () => {
   return (
     <div className="flex flex-col h-full">
       {/* Chat Header */}
-      <div className="border-b p-4 flex items-center gap-4">
+      <div className="border-b h-16 w-full p-4 flex items-center gap-4">
         <img
           src={state.user.photoURL || "/images/avatar.png"}
           alt={state.user.displayName || "User"}

@@ -12,6 +12,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
+import { FacebookAuthProvider } from "firebase/auth/web-extension";
 import {
   ReactNode,
   createContext,
@@ -29,6 +30,7 @@ interface AuthContextType {
   signUp: (email: string, password: string) => Promise<UserCredential>;
   updateProfile: (user: User, name: string, photo: string) => Promise<void>;
   signInWithGoogle: () => Promise<UserCredential>;
+  signInWithMeta: () => Promise<UserCredential>;
   signInWithGitHub: () => Promise<UserCredential>;
   signIn: (email: string, password: string) => Promise<UserCredential>;
   signOut: () => Promise<void>;
@@ -43,6 +45,7 @@ interface AuthProviderProps {
 // ----------------------
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
+const metaProvider = new FacebookAuthProvider();
 const gitHubProvider = new GithubAuthProvider();
 
 // ----------------------
@@ -88,6 +91,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return signInWithPopup(auth, googleProvider);
   };
 
+  const SignInWithMeta = (): Promise<UserCredential> => {
+    setIsLoading(true);
+    return signInWithPopup(auth, metaProvider);
+  };
+
   const SignInWithGitHub = (): Promise<UserCredential> => {
     setIsLoading(true);
     return signInWithPopup(auth, gitHubProvider);
@@ -115,6 +123,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     isLoading,
     updateProfile: UpdateProfile,
     signInWithGoogle: SignInWithGoogle,
+    signInWithMeta: SignInWithMeta,
     signInWithGitHub: SignInWithGitHub,
     signUp: SignUp,
     signIn: SignIn,

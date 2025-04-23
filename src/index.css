@@ -61,6 +61,8 @@
 @import "./assets/styles/base/typography.css";
 
 /* Component Styles */
+@import "./assets/styles/components/button.css";
+@import "./assets/styles/components/form-control.css";
 @import "./assets/styles/components/checkbox.css";
 
 /* Utility Styles */

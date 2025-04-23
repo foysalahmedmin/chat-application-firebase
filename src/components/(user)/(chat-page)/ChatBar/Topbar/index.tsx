@@ -33,7 +33,7 @@ const Topbar: React.FC = () => {
   if (!user) return null;
 
   return (
-    <header className="flex justify-between items-center bg-foreground/25 p-4 shadow-sm">
+    <div className="flex w-full justify-between border-b items-center bg-foreground/25 p-4 shadow-sm">
       <div className="flex gap-2 items-center">
         <img
           className="w-8 h-8 md:w-10 md:h-10"
@@ -84,7 +84,7 @@ const Topbar: React.FC = () => {
           </div>
         )}
       </div>
-    </header>
+    </div>
   );
 };
 

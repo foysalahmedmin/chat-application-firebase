@@ -1,6 +1,7 @@
 import AuthenticationLayout from "@/components/layouts/AuthenticationLayout";
 import RootLayout from "@/components/layouts/RootLayout";
 import UserLayout from "@/components/layouts/UserLayout";
+import AuthWrapper from "@/components/wrappers/AuthWrapper";
 import SignInPage from "@/pages/(authentication)/SignInPage";
 import SignUpPage from "@/pages/(authentication)/SignUpPage";
 import ErrorPage from "@/pages/(common)/ErrorPage";
@@ -17,10 +18,28 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <UserLayout />,
+        element: (
+          <AuthWrapper>
+            <UserLayout />
+          </AuthWrapper>
+        ),
         children: [
-          { index: true, element: <ChatPage /> },
-          { path: "profile", element: <ProfilePage /> },
+          {
+            index: true,
+            element: (
+              <AuthWrapper>
+                <ChatPage />
+              </AuthWrapper>
+            ),
+          },
+          {
+            path: "profile",
+            element: (
+              <AuthWrapper>
+                <ProfilePage />
+              </AuthWrapper>
+            ),
+          },
         ],
       },
       {

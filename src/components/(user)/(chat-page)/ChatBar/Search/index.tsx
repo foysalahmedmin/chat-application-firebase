@@ -10,6 +10,7 @@ import {
   query,
   startAt,
 } from "firebase/firestore";
+import { SearchIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 const Search: React.FC = () => {
@@ -71,33 +72,36 @@ const Search: React.FC = () => {
   };
 
   return (
-    <div className={cn("p-4", { "border-b": results.length > 0 })}>
-      <div className="mb-4 relative">
-        <input
-          type="text"
-          name="searchUser"
-          placeholder="Search User"
-          className="input border-0 border-b-2 border-primary rounded-none w-full pr-10"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          disabled={isSearching}
-        />
+    <div className={cn("border-b")}>
+      <div className="relative">
+        <div className="form-control !border-b-0 bg-muted w-full">
+          <SearchIcon className="size-5 shrink-0" />
+          <input
+            type="text"
+            name="searchUser"
+            placeholder="Search User"
+            className="flex-1 h-full outline-0 appearance-none"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            disabled={isSearching}
+          />
+        </div>
         {isSearching && (
-          <span className="absolute right-3 top-3 loading loading-spinner loading-xs" />
+          <span className="absolute right-4 top-4 loading loading-spinner loading-xs" />
         )}
       </div>
 
       {error && (
-        <p className="text-red-500 text-sm font-medium mb-2">{error}</p>
+        <p className="text-red-500 px-4 text-sm font-medium my-2">{error}</p>
       )}
 
-      {results.length > 0 && (
-        <ul className="space-y-2">
-          {results.map((user) => (
+      {results?.length > 0 && (
+        <ul className="divide-y mt-4">
+          {results?.map((user) => (
             <li key={user.uid}>
               <button
                 onClick={() => handleSelect(user)}
-                className="flex items-center gap-4 w-full p-2 rounded hover:bg-base-300 transition-colors"
+                className="flex items-center gap-4 w-full px-4 py-2 rounded hover:bg-base-300 transition-colors"
                 aria-label={`Select ${user.displayName}`}
               >
                 <img

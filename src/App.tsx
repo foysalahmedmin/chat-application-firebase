@@ -1,10 +1,16 @@
 import { RouterProvider } from "react-router";
+import { AuthProvider } from "./components/providers/AuthProvider";
+import { ChatProvider } from "./components/providers/ChatProvider";
 import { router } from "./routes";
 
 const App = () => {
   return (
     <>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <ChatProvider>
+          <RouterProvider router={router} />
+        </ChatProvider>
+      </AuthProvider>
     </>
   );
 };

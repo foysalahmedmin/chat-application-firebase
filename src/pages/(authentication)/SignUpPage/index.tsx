@@ -4,10 +4,10 @@ import { db, storage } from "@/firebase/firebase.config";
 import { updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { Eye, EyeClosed } from "lucide-react";
+import { Eye, EyeClosed, ImagePlus } from "lucide-react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, Location, useLocation, useNavigate } from "react-router";
 
 // Define form input types
 interface SignUpFormInputs {
@@ -26,6 +26,11 @@ const SignUpPage = () => {
     reset,
     formState: { errors },
   } = useForm<SignUpFormInputs>();
+
+  const location = useLocation() as Location & {
+    state?: { from?: { pathname: string } };
+  };
+  const from = location.state?.from?.pathname || "/";
 
   const [passShow, setPassShow] = useState(false);
 
@@ -62,7 +67,7 @@ const SignUpPage = () => {
       alert("Sign-up successful!");
 
       reset();
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (error: unknown) {
       if (error instanceof Error) {
         alert(error.message);
@@ -80,38 +85,42 @@ const SignUpPage = () => {
 
   return (
     <section className="min-h-screen">
-      <div className="container">
-        <div className="hero py-10 min-h-screen items-center">
-          <div className="card flex-shrink-0 w-full max-w-sm py-6 bg-foreground/25">
+      <div className="container mx-auto">
+        <div className="py-10 min-h-screen flex justify-center items-center">
+          <div className="flex-shrink-0 w-full max-w-xl py-6 bg-card shadow-2xl">
             <h1 className="text-center font-bold py-6 text-2xl">SIGN-UP</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="card-body p-6">
-              <div className="form-control mb-6">
-                <input
-                  type="text"
-                  {...register("name", { required: true })}
-                  placeholder="Name"
-                  className="input input-bordered"
-                  required
-                />
+              <div className="flex items-center gap-4 mb-6">
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    {...register("name", { required: true })}
+                    placeholder="Name"
+                    className="form-control w-full"
+                    required
+                  />
+                </div>
+                <label className="flex px-4 items-center gap-2 cursor-pointer h-10 bg-muted">
+                  <input
+                    type="file"
+                    {...register("photoFile")}
+                    className="hidden"
+                  />
+                  <span className="text-sm">Upload Photo</span>
+                  <ImagePlus className="size-6" />
+                </label>
               </div>
-              <div className="form-control mb-6">
-                <input
-                  type="file"
-                  {...register("photoFile")}
-                  className="input input-bordered"
-                />
-              </div>
-              <div className="form-control mb-6">
+              <div className="mb-6">
                 <input
                   type="email"
                   {...register("email", { required: true })}
                   placeholder="Email"
-                  className="input input-bordered"
+                  className="form-control w-full"
                   required
                 />
               </div>
-              <div className="form-control mb-6">
-                <span className="relative">
+              <div className="mb-6">
+                <span className="form-control w-full">
                   <input
                     type={passShow ? "text" : "password"}
                     {...register("password", {
@@ -128,20 +137,23 @@ const SignUpPage = () => {
                       },
                     })}
                     placeholder="Password"
-                    className="input input-bordered w-full pr-10"
+                    className="flex-1 appearance-none outline-none"
                     required
                   />
-                  <label className="swap swap-rotate absolute right-4 top-0 bottom-0 my-auto">
-                    <input
-                      onChange={togglePasswordVisibility}
-                      type="checkbox"
-                    />
-                    <p className="swap-off fill-current text-xl">
-                      <Eye />
-                    </p>
-                    <p className="swap-on fill-current text-xl">
-                      <EyeClosed />
-                    </p>
+                  <label className="flex items-center justify-center cursor-pointer right-4 top-0 bottom-0 my-auto">
+                    <div>
+                      <input
+                        className="peer hidden"
+                        onChange={togglePasswordVisibility}
+                        type="checkbox"
+                      />
+                      <p className="peer-checked:hidden block fill-current text-xl">
+                        <Eye />
+                      </p>
+                      <p className="peer-checked:block hidden fill-current text-xl">
+                        <EyeClosed />
+                      </p>
+                    </div>
                   </label>
                 </span>
                 {errors.password && (
@@ -150,16 +162,25 @@ const SignUpPage = () => {
                   </span>
                 )}
               </div>
-              <div className="form-control mt-6">
-                <input type="submit" value="Sign-Up" className="primary-btn" />
+              <div className="mt-6">
+                <input
+                  type="submit"
+                  value="Sign-Up"
+                  className="button w-full"
+                />
               </div>
             </form>
-            <p className="text-secondary text-center">
+            <p className="text-center">
               Already registered?{" "}
-              <Link to="/authentication/sign-in" className="text-primary">
+              <Link
+                to="/authentication/sign-in"
+                className="text-primary font-semibold"
+                state={{ from }}
+              >
                 Go to SignIn.
               </Link>
             </p>
+            <hr className="my-4 mx-auto w-1/2" />
             <SocialAuthentication />
           </div>
         </div>
